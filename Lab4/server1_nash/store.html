@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST" action="http://localhost:8888/api/definitions/">
+        <label for="word">Word:</label>
+        <input type="text" id="word" name="word" required placeholder="Enter a word"><br><br>
+        <label for="definition">Definition:</label>
+        <textarea id="definition" name="definition" required placeholder="Enter the definition"></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
+<div id="feedback"></div>
+<script src="storeApp.js"></script>
