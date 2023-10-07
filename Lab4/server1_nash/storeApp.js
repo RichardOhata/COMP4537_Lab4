@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitForm = document.querySelector("form");
 
     submitForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // 폼 기본 제출 동작 방지
+        event.preventDefault();
 
         const word = document.getElementById("word").value;
         const definition = document.getElementById("definition").value;
