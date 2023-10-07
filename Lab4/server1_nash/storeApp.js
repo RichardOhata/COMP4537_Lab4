@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const submitForm = document.querySelector("form");
+    const submitForm = document.getElementById("store");
 
     submitForm.addEventListener("submit", function (event) {
         event.preventDefault();

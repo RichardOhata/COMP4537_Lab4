@@ -1,4 +1,7 @@
 const http = require('http');
+const POST = "POST";
+const GET = "GET";
+const resource = "/API/definitions/";
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {
@@ -6,6 +9,13 @@ const server = http.createServer((req, res) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "*"
     });
+    console.log("Server received a request.");
+
+    if (req.method === POST && req.url === resource) {
+        console.log("post requested");
+        
+    }
+
     res.end();
 });
 
