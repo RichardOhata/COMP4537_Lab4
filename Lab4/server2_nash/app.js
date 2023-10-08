@@ -5,7 +5,7 @@ const GET = "GET";
 const resource = "/api/definitions/";
 const resourcePattern = "/api/definitions/?word=";
 let pattern;
-let jsonData = [];
+let dictionary = [];
 let numberOfKeys;
 let numberOfRequests = 0;
 
@@ -35,17 +35,17 @@ const server = http.createServer((req, res) => {
             try {
                 const jsonDataObj = JSON.parse(body);
                 // checking the word existing
-                const existingIndex = jsonData.findIndex(item => item.word === jsonDataObj.word);
+                const existingIndex = dictionary.findIndex(item => item.word === jsonDataObj.word);
                 if (existingIndex !== -1) {
                     // If the word exists, replace the existing entry
                     console.log("The word exists in the dictionary. It will be updated with new definition.");
-                    jsonData[existingIndex] = jsonDataObj;
+                    dictionary[existingIndex] = jsonDataObj;
                 } else {
-                    jsonData.push(jsonDataObj);
+                    dictionary.push(jsonDataObj);
                 }
-                numberOfKeys = Object.keys(jsonData).length;
+                numberOfKeys = Object.keys(dictionary).length;
                 console.log("Request #" + numberOfRequests + " - Total number of entries in the dictionary: ", numberOfKeys);
-                console.log("JSON: ", jsonData);
+                console.log("JSON: ", dictionary);
                 res.end("Data received and saved.");
             } catch (error) {
                 console.error("Request #" + numberOfRequests + "Error parsing JSON:" + error);
@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
         numberOfRequests++;
         const queryObject = url.parse(req.url, true).query;
         const word = queryObject.word;
-        const foundData = jsonData.find(item => item.word === word);
+        const foundData = dictionary.find(item => item.word === word);
         if (foundData) {
             console.log("Request #" + numberOfRequests + "- found in the dictionary.");
             res.end(foundData.definition);
