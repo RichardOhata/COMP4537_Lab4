@@ -12,13 +12,15 @@
 </head>
 <body>
     <h1>Dictionary Search</h1>
-    <form onsubmit="search(); return false;">
+    <!-- <form id="search" onsubmit="search(); return false;"> -->
+    <form id="search">
         <label for="searchTerm">Enter a word to search:</label>
         <input type="text" id="searchTerm" name="searchTerm" required placeholder="Enter the word to search">
-        <button type="button" onclick="search()">Search</button>
+        <!-- <button type="button" onclick="search()">Search</button> -->
+        <input type="submit" value="Search">
     </form>
-    <div id="result"></div>
-    <script src="storeApp.js"></script>
+    <div id="feedback"></div>
+    <script src="searchApp.js"></script>
 
     <!-- <script>
         function search() {

@@ -1,19 +1,33 @@
 const http = require('http');
 const POST = "POST";
 const GET = "GET";
-const resource = "/API/definitions/";
+const resource = "/api/definitions/";
+const resourcePattern = "/api/definitions/?word=";
+let pattern;
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {
-        "Content-Type": "text/html",
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*"
+        "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "*"
     });
+    
     console.log("Server received a request.");
+    console.log("method:" + req.method);
+    console.log("req.url:" + req.url);
+
+    const indexOfPatternSign = req.url.indexOf('=');
+    if (indexOfPatternSign !== -1) {
+        pattern = req.url.substring(0, indexOfPatternSign + 1);
+    } else {
+        pattern = "";
+    }
 
     if (req.method === POST && req.url === resource) {
         console.log("post requested");
-        
+
+    } else if (req.method === GET && pattern === resourcePattern) {
+        console.log("get requested");
     }
 
     res.end();

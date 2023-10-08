@@ -1,7 +1,11 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const submitForm = document.getElementById("store");
+const POST = "POST";
+const GET = "GET";
 
-    submitForm.addEventListener("submit", function (event) {
+// Event listener for submit button in store.html
+document.addEventListener("DOMContentLoaded", function () {
+    const storeForm = document.getElementById("store");
+
+    storeForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
         const word = document.getElementById("word").value;
@@ -21,12 +25,34 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// // Event listener for search button in search.html
+// document.addEventListener("DOMContentLoaded", function () {
+//     const searchForm = document.getElementById("search");
+
+//     searchForm.addEventListener("submit", function (event) {
+//         event.preventDefault();
+
+//         const word = document.getElementById("searchTerm").value;
+
+//         if (word.length !== 0) {
+//             document.getElementById("result").innerHTML = "";
+//             const data = JSON.stringify({
+//                 word: word,
+//             });
+//             get(data);
+//         } else {
+//             document.getElementById("result").innerHTML =
+//                 "Please fill out the word for search.";
+//         }
+//     });
+// });
+
 function post(data) {
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "http://localhost:8888/api/";
     const resource = "definitions/";
 
-    xhttp.open("POST", endPointRoot + resource, true);
+    xhttp.open(POST, endPointRoot + resource, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     xhttp.onreadystatechange = function () {
@@ -41,6 +67,31 @@ function post(data) {
         }
     };
 
+    xhttp.send(data);
+    console.log(data);
+}
+
+function get(data) {
+    const xhttp = new XMLHttpRequest();
+    const endPointRoot = "http://localhost:8888/api/";
+    const word = { word: inputJSON.word }
+    let resource = "definitions/?word=" + word;
+    console.log("Get requested: ", resource);
+
+    xhttp.open(GET, endPointRoot + resource, true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                document.getElementById("feedback").innerHTML =
+                    "Successfully stored the word and definition.";
+            } else {
+                document.getElementById("feedback").innerHTML =
+                    "Error: Failed to store the word and definition.";
+            }
+        }
+    };
     xhttp.send(data);
     console.log(data);
 }
