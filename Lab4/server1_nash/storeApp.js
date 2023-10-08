@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function post(data) {
     const xhttp = new XMLHttpRequest();
-    const endPointRoot = "http://localhost:8888/api/";
+    // const endPointRoot = "http://localhost:8888/api/";
+    const endPointRoot = "https://port-0-nash4537lab4-12fhqa2blngyj6u4.sel5.cloudtype.app/api/";
     const resource = "definitions/";
 
     xhttp.open(POST, endPointRoot + resource, true);
@@ -53,7 +54,8 @@ function post(data) {
 
 function get(data) {
     const xhttp = new XMLHttpRequest();
-    const endPointRoot = "http://localhost:8888/api/";
+    // const endPointRoot = "http://localhost:8888/api/";
+    const endPointRoot = "https://port-0-nash4537lab4-12fhqa2blngyj6u4.sel5.cloudtype.app/api/";
     const word = {
         word: inputJSON.word
     }
