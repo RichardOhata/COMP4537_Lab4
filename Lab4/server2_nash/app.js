@@ -6,6 +6,8 @@ const resource = "/api/definitions/";
 const resourcePattern = "/api/definitions/?word=";
 let pattern;
 let jsonData = [];
+let numberOfKeys;
+let numberOfRequests = 0;
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {
@@ -13,10 +15,6 @@ const server = http.createServer((req, res) => {
         "Access-Control-Allow-Methods": "GET, POST",
         "Access-Control-Allow-Headers": "*"
     });
-
-    console.log("Server received a request.");
-    console.log("method:" + req.method);
-    console.log("req.url:" + req.url);
 
     const indexOfPatternSign = req.url.indexOf('=');
     if (indexOfPatternSign !== -1) {
@@ -26,7 +24,7 @@ const server = http.createServer((req, res) => {
     }
 
     if (req.method === POST && req.url === resource) {
-        console.log("post requested");
+        numberOfRequests++;
         let body = "";
         req.on('data', function (chunk) {
             if (chunk != null) {
@@ -45,41 +43,33 @@ const server = http.createServer((req, res) => {
                 } else {
                     jsonData.push(jsonDataObj);
                 }
-                console.log("Received JSON:", jsonDataObj);
+                numberOfKeys = Object.keys(jsonData).length;
+                console.log("Request #" + numberOfRequests + " - Total number of entries in the dictionary: ", numberOfKeys);
                 console.log("JSON: ", jsonData);
                 res.end("Data received and saved.");
             } catch (error) {
-                console.error("Error parsing JSON:", error);
+                console.error("Request #" + numberOfRequests + "Error parsing JSON:" + error);
                 res.writeHead(400, {
                     "Content-Type": "text/plain"
                 });
                 res.end("Invalid JSON data.");
             }
         });
-    } 
+    }
 
     if (req.method === GET && pattern === resourcePattern) {
-        console.log("get requested");
+        numberOfRequests++;
         const queryObject = url.parse(req.url, true).query;
         const word = queryObject.word;
         const foundData = jsonData.find(item => item.word === word);
-        // console.log("Found", foundData.definition);
-
         if (foundData) {
-            // res.writeHead(200, {
-            //     "Content-Type": "text/plain"
-            // });
-            console.log("founddata 200");
+            console.log("Request #" + numberOfRequests + "- found in the dictionary.");
             res.end(foundData.definition);
         } else {
-            // res.writeHead(404, {
-            //     "Content-Type": "text/plain"
-            // });
-            console.log("not found data 404");
+            console.log("Request #" + numberOfRequests + "- Word not found in the dictionary.");
             res.end("Word not found in the dictionary.");
         }
     } else if (req.method === "OPTIONS") {
-        console.log("options method");
         res.end();
     }
 });
@@ -93,5 +83,5 @@ server.on('error', (error) => {
 });
 
 server.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running...`);
 });

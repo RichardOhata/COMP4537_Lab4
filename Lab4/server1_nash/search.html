@@ -12,8 +12,7 @@
     <h1>Dictionary Search</h1>
     <form id="search">
         <label for="searchTerm">Enter a word to search:</label>
-        <input type="text" id="searchTerm" name="searchTerm" required placeholder="Enter the word to search">
-        <!-- <button type="button" onclick="search()">Search</button> -->
+        <input type="text" id="searchTerm" name="searchTerm" required placeholder="Enter the word to search" pattern="[A-Za-z]+">
         <input type="submit" value="Search">
     </form>
     <div id="feedback"></div>

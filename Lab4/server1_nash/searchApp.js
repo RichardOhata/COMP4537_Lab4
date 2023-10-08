@@ -1,4 +1,3 @@
-const POST = "POST";
 const GET = "GET";
 
 // Event listener for search button in search.html
@@ -29,7 +28,6 @@ function get(data) {
     const parsedWord = JSON.parse(data);
     const word = parsedWord.word;
     let resource = "definitions/?word=" + word;
-    console.log("Get requested: ", resource);
 
     xhttp.open(GET, endPointRoot + resource, true);
     xhttp.setRequestHeader("Content-type", "application/json");
@@ -37,8 +35,8 @@ function get(data) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
-                document.getElementById("feedback").innerHTML =
-                    this.responseText;
+                const text = word + ": " + this.responseText;
+                document.getElementById("feedback").innerHTML = text;
             } else if (this.status == 103) {
                 document.getElementById("feedback").innerHTML =
                 "Error: #103, Word not found in the dictionary";

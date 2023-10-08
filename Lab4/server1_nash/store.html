@@ -14,7 +14,7 @@
 <body>
     <form id="store" method="POST" action="http://localhost:8888/api/definitions/">
         <label for="word">Word:</label>
-        <input type="text" id="word" name="word" required placeholder="Enter a word"><br><br>
+        <input type="text" id="word" name="word" required placeholder="Enter a word" pattern="[A-Za-z]+"><br><br>
         <label for="definition">Definition:</label>
         <textarea id="definition" name="definition" required placeholder="Enter the definition"></textarea><br><br>
         <input type="submit" value="Submit">
