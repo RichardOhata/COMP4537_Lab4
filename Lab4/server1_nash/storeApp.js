@@ -25,28 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// // Event listener for search button in search.html
-// document.addEventListener("DOMContentLoaded", function () {
-//     const searchForm = document.getElementById("search");
-
-//     searchForm.addEventListener("submit", function (event) {
-//         event.preventDefault();
-
-//         const word = document.getElementById("searchTerm").value;
-
-//         if (word.length !== 0) {
-//             document.getElementById("result").innerHTML = "";
-//             const data = JSON.stringify({
-//                 word: word,
-//             });
-//             get(data);
-//         } else {
-//             document.getElementById("result").innerHTML =
-//                 "Please fill out the word for search.";
-//         }
-//     });
-// });
-
 function post(data) {
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "http://localhost:8888/api/";

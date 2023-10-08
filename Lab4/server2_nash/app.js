@@ -4,6 +4,7 @@ const GET = "GET";
 const resource = "/api/definitions/";
 const resourcePattern = "/api/definitions/?word=";
 let pattern;
+let jsonData = [];
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {
@@ -11,7 +12,7 @@ const server = http.createServer((req, res) => {
         "Access-Control-Allow-Methods": "GET, POST",
         "Access-Control-Allow-Headers": "*"
     });
-    
+
     console.log("Server received a request.");
     console.log("method:" + req.method);
     console.log("req.url:" + req.url);
@@ -25,6 +26,27 @@ const server = http.createServer((req, res) => {
 
     if (req.method === POST && req.url === resource) {
         console.log("post requested");
+        let body = "";
+        req.on('data', function (chunk) {
+            if (chunk != null) {
+                body += chunk;
+            }
+        });
+        req.on('end', function () {
+            try {
+                const jsonDataObj = JSON.parse(body);
+                jsonData.push(jsonDataObj);
+                console.log("Received JSON:", jsonDataObj);
+                console.log("JSON: ", jsonData);
+                res.end("Data received and saved.");
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+                res.writeHead(400, {
+                    "Content-Type": "text/plain"
+                });
+                res.end("Invalid JSON data.");
+            }
+        });
 
     } else if (req.method === GET && pattern === resourcePattern) {
         console.log("get requested");
