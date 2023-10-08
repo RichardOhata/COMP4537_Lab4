@@ -38,10 +38,13 @@ function get(data) {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 document.getElementById("feedback").innerHTML =
-                    "Successfully stored the word and definition.";
+                    this.responseText;
+            } else if (this.status == 103) {
+                document.getElementById("feedback").innerHTML =
+                "Error: #103, Word not found in the dictionary";
             } else {
                 document.getElementById("feedback").innerHTML =
-                    "Error: Failed to store the word and definition.";
+                    "Error: Failed to retrieve the word's definition.";
             }
         }
     };

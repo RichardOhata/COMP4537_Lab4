@@ -1,4 +1,5 @@
 const http = require('http');
+const url = require('url');
 const POST = "POST";
 const GET = "GET";
 const resource = "/api/definitions/";
@@ -35,7 +36,15 @@ const server = http.createServer((req, res) => {
         req.on('end', function () {
             try {
                 const jsonDataObj = JSON.parse(body);
-                jsonData.push(jsonDataObj);
+                // checking the word existing
+                const existingIndex = jsonData.findIndex(item => item.word === jsonDataObj.word);
+                if (existingIndex !== -1) {
+                    // If the word exists, replace the existing entry
+                    console.log("The word exists in the dictionary. It will be updated with new definition.");
+                    jsonData[existingIndex] = jsonDataObj;
+                } else {
+                    jsonData.push(jsonDataObj);
+                }
                 console.log("Received JSON:", jsonDataObj);
                 console.log("JSON: ", jsonData);
                 res.end("Data received and saved.");
@@ -47,12 +56,32 @@ const server = http.createServer((req, res) => {
                 res.end("Invalid JSON data.");
             }
         });
+    } 
 
-    } else if (req.method === GET && pattern === resourcePattern) {
+    if (req.method === GET && pattern === resourcePattern) {
         console.log("get requested");
-    }
+        const queryObject = url.parse(req.url, true).query;
+        const word = queryObject.word;
+        const foundData = jsonData.find(item => item.word === word);
+        // console.log("Found", foundData.definition);
 
-    res.end();
+        if (foundData) {
+            // res.writeHead(200, {
+            //     "Content-Type": "text/plain"
+            // });
+            console.log("founddata 200");
+            res.end(foundData.definition);
+        } else {
+            // res.writeHead(404, {
+            //     "Content-Type": "text/plain"
+            // });
+            console.log("not found data 404");
+            res.end("Word not found in the dictionary.");
+        }
+    } else if (req.method === "OPTIONS") {
+        console.log("options method");
+        res.end();
+    }
 });
 
 const port = 8888;

@@ -38,6 +38,8 @@ function post(data) {
             if (this.status == 200) {
                 document.getElementById("feedback").innerHTML =
                     "Successfully stored the word and definition.";
+                document.getElementById("word").value = "";
+                document.getElementById("definition").value = "";
             } else {
                 document.getElementById("feedback").innerHTML =
                     "Error: Failed to store the word and definition.";
@@ -52,7 +54,9 @@ function post(data) {
 function get(data) {
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "http://localhost:8888/api/";
-    const word = { word: inputJSON.word }
+    const word = {
+        word: inputJSON.word
+    }
     let resource = "definitions/?word=" + word;
     console.log("Get requested: ", resource);
 
